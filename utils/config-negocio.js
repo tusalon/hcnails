@@ -154,7 +154,7 @@ window.cargarConfiguracionNegocio = async function(forceRefresh = false) {
         
         if (configCache) {
             if (window.setCodigoPaisTelefono) {
-                window.setCodigoPaisTelefono(configCache.codigo_pais || configCache.codigo_pais_telefono || '53');
+                window.setCodigoPaisTelefono(configCache.codigo_pais || configCache.codigo_pais_telefono || '592');
             }
             aplicarTemaNegocio(configCache);
             console.log('✅ Configuración cargada:');
@@ -199,7 +199,7 @@ window.getTelefonoDuenno = async function() {
 
 window.getCodigoPaisNegocio = async function() {
     const config = await window.cargarConfiguracionNegocio();
-    return window.getCodigoPaisTelefono ? window.getCodigoPaisTelefono(config) : (config?.codigo_pais || '53');
+    return window.getCodigoPaisTelefono ? window.getCodigoPaisTelefono(config) : (config?.codigo_pais || '592');
 };
 
 /**
