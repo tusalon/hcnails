@@ -1534,7 +1534,7 @@ function AdminApp() {
         ctx.textAlign = 'center';
         ctx.fillStyle = '#831843';
         ctx.font = '800 58px Arial';
-        dibujarTextoCentrado(ctx, nombreNegocio || 'Exotic Nails by Yuly', 540, 145, 850, 64);
+        dibujarTextoCentrado(ctx, nombreNegocio || 'HCNails', 540, 145, 850, 64);
 
         ctx.fillStyle = '#374151';
         ctx.font = '700 34px Arial';
@@ -1683,7 +1683,7 @@ function AdminApp() {
         ctx.textAlign = 'center';
         ctx.fillStyle = '#831843';
         ctx.font = '800 58px Arial';
-        dibujarTextoCentrado(ctx, nombreNegocio || 'Exotic Nails by Yuly', 540, 145, 850, 64);
+        dibujarTextoCentrado(ctx, nombreNegocio || 'HCNails', 540, 145, 850, 64);
 
         ctx.fillStyle = '#374151';
         ctx.font = '700 34px Arial';

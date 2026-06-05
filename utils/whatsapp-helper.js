@@ -3,7 +3,7 @@
 
 console.log('📱 whatsapp-helper.js cargado');
 
-const CALENDARIO_PUBLICO_BASE_URL = 'https://tusalon.github.io/exoticnailsbyyuly/';
+const CALENDARIO_PUBLICO_BASE_URL = 'https://tusalon.github.io/hcnails/';
 
 function generarLinkCalendarioCliente(booking) {
     if (!booking?.id) return '';

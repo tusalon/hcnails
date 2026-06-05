@@ -84,7 +84,7 @@ window.subirImagenServicio = async function(file, servicioId) {
         formData.append('file', imagenComprimida, `${slugArchivoImagen(servicioId)}.jpg`);
         formData.append('upload_preset', uploadPreset);
         formData.append('folder', 'servicios');
-        formData.append('tags', 'servicio,exoticnailsbyyuly');
+        formData.append('tags', 'servicio,hcnails');
 
         console.log('Subiendo imagen de servicio a Cloudinary');
 

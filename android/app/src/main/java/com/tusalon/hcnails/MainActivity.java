@@ -1,4 +1,4 @@
-package com.tusalon.exoticnailsbyyuli;
+package com.tusalon.hcnails;
 
 import com.getcapacitor.BridgeActivity;
 
