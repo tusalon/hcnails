@@ -1,7 +1,7 @@
 // utils/phone-utils.js - Normalizacion internacional de telefonos
 
 (function() {
-    const DEFAULT_COUNTRY_CODE = '53';
+    const DEFAULT_COUNTRY_CODE = '592';
     const COUNTRIES = [
         { id: 'CU', nombre: 'Cuba', bandera: '🇨🇺', codigo: '53', ejemplo: '53066647', localLength: 8 },
         { id: 'ES', nombre: 'Espana', bandera: '🇪🇸', codigo: '34', ejemplo: '612345678', localLength: 9 },
@@ -88,6 +88,7 @@
     window.PHONE_COUNTRIES = COUNTRIES;
     window.DEFAULT_PHONE_COUNTRY_CODE = DEFAULT_COUNTRY_CODE;
     window.onlyPhoneDigits = onlyDigits;
+    window.getCountryByPhoneCode = getCountryByCode;
     window.getPhoneCountryConfig = (config = null) => getCountryByCode(getCodigoPaisTelefono(config));
     window.getCodigoPaisTelefono = getCodigoPaisTelefono;
     window.setCodigoPaisTelefono = setCodigoPaisTelefono;

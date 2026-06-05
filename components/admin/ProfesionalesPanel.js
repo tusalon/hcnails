@@ -184,10 +184,12 @@ function ProfesionalesPanel() {
 }
 
 function ProfesionalForm({ profesional, onGuardar, onCancelar }) {
-    const [form, setForm] = React.useState(profesional ? { ...profesional, password: '' } : {
+    const paisInicial = window.getCodigoPaisTelefono ? window.getCodigoPaisTelefono() : '592';
+    const [form, setForm] = React.useState(profesional ? { ...profesional, password: '', codigo_pais: paisInicial } : {
         nombre: '',
         especialidad: '',
         telefono: '',
+        codigo_pais: paisInicial,
         password: '',
         nivel: 1,
         color: 'bg-amber-600',
@@ -195,6 +197,10 @@ function ProfesionalForm({ profesional, onGuardar, onCancelar }) {
     });
 
     const avatares = ['👤', '💇', '💅', '👑', '⭐', '🔰'];
+    const paisProfesional = window.getCountryByPhoneCode
+        ? window.getCountryByPhoneCode(form.codigo_pais || paisInicial)
+        : (window.getPhoneCountryConfig ? window.getPhoneCountryConfig({ codigo_pais: form.codigo_pais || paisInicial }) : { codigo: '592', bandera: 'GY', ejemplo: '6416658', localLength: 7, nombre: 'Guyana' });
+
     const colores = [
         { value: 'bg-amber-600', label: 'Ámbar' },
         { value: 'bg-amber-700', label: 'Ámbar Oscuro' },
@@ -212,7 +218,11 @@ function ProfesionalForm({ profesional, onGuardar, onCancelar }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!form.telefono || form.telefono.length < 8) {
+        const telefonoLocal = window.normalizarTelefonoLocal
+            ? window.normalizarTelefonoLocal(form.telefono, form.codigo_pais || paisInicial)
+            : String(form.telefono || '').replace(/\D/g, '');
+        const largoEsperado = paisProfesional?.localLength || 7;
+        if (!telefonoLocal || telefonoLocal.length !== largoEsperado) {
             alert('Ingresá un teléfono válido para el acceso del profesional');
             return;
         }
@@ -222,6 +232,8 @@ function ProfesionalForm({ profesional, onGuardar, onCancelar }) {
         }
 
         const payload = { ...form };
+        payload.telefono = telefonoLocal;
+        delete payload.codigo_pais;
         if (!String(payload.password || '').trim()) {
             delete payload.password;
         }
@@ -276,7 +288,24 @@ function ProfesionalForm({ profesional, onGuardar, onCancelar }) {
                         Teléfono
                     </label>
                     <div className="flex">
-                        <span className="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                        <select
+                            value={form.codigo_pais || paisInicial}
+                            onChange={(e) => {
+                                const nuevoCodigo = e.target.value;
+                                const value = window.normalizarTelefonoLocal
+                                    ? window.normalizarTelefonoLocal(form.telefono, nuevoCodigo)
+                                    : String(form.telefono || '').replace(/\D/g, '');
+                                setForm({...form, codigo_pais: nuevoCodigo, telefono: value});
+                            }}
+                            className="w-36 px-2 py-2 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-700 text-sm"
+                        >
+                            {(window.PHONE_COUNTRIES || []).map(pais => (
+                                <option key={pais.codigo} value={pais.codigo}>
+                                    {pais.bandera} +{pais.codigo}
+                                </option>
+                            ))}
+                        </select>
+                        <span className="hidden">
                             {window.getPhoneCountryConfig ? window.getPhoneCountryConfig().bandera : '🇨🇺'} +{window.getPhoneCountryConfig ? window.getPhoneCountryConfig().codigo : '53'}
                         </span>
                         <input
@@ -284,15 +313,17 @@ function ProfesionalForm({ profesional, onGuardar, onCancelar }) {
                             value={form.telefono}
                             onChange={(e) => {
                                 const value = window.normalizarTelefonoLocal
-                                    ? window.normalizarTelefonoLocal(e.target.value)
+                                    ? window.normalizarTelefonoLocal(e.target.value, form.codigo_pais || paisInicial)
                                     : e.target.value.replace(/\D/g, '');
                                 setForm({...form, telefono: value});
                             }}
                             className="w-full px-4 py-2 rounded-r-lg border border-gray-300"
-                            placeholder={window.getPhoneCountryConfig ? window.getPhoneCountryConfig().ejemplo : '55002272'}
+                            placeholder={paisProfesional?.ejemplo || '6416658'}
                         />
                     </div>
-                    <p className="text-xs text-gray-400 mt-1">Numero local despues del codigo de pais.</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                        Numero local despues del codigo de pais. {paisProfesional?.nombre || 'Este pais'} usa {paisProfesional?.localLength || 7} digitos.
+                    </p>
                 </div>
                 
                 <div>

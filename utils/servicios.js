@@ -189,6 +189,18 @@ window.salonServicios = {
             const nuevo = await response.json();
             console.log('✅ Servicio creado:', nuevo);
             
+            try {
+                const servicioCreado = nuevo && nuevo[0];
+                if (servicioCreado && window.salonProfesionales && window.asignarProfesionalAServicio) {
+                    const profesionalesActivos = await window.salonProfesionales.getAll(true);
+                    for (const profesional of profesionalesActivos || []) {
+                        await window.asignarProfesionalAServicio(servicioCreado.id, profesional.id);
+                    }
+                }
+            } catch (assignError) {
+                console.warn('No se pudo asignar automaticamente el servicio a profesionales:', assignError);
+            }
+
             serviciosCache = await cargarServiciosDesdeDB() || serviciosCache;
             
             if (window.dispatchEvent) {

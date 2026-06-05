@@ -1,6 +1,6 @@
 // sw.js - Service Worker para HCNails
 
-const CACHE_NAME = 'hcnails-v1';
+const CACHE_NAME = 'hcnails-v2';
 const urlsToCache = [
   '/hcnails/',
   '/hcnails/index.html',
